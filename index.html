@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+
+<body>
+    <form id="myForm">
+        <div class="g-recaptcha" data-sitekey="6LdcThYqAAAAAO15uMswxKcPTqpszSCZqS-mirmW"></div>
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+    <script>
+        function submitForm() {
+            var response = grecaptcha.getResponse();
+
+            fetch('https://script.google.com/macros/s/AKfycbxokqGmXnjtHb7z1yhw9iSoFT5kpPCVtDKqM661P7ainXWUP48PC5g8Dey9mLLXPYdz/exec', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({token: response})
+            })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    alert(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</body>
+
+</html>
